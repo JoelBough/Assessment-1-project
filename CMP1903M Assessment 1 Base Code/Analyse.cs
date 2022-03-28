@@ -8,8 +8,7 @@ namespace CMP1903M_Assessment_1_Base_Code
 {
     class AnalyseString
     {
-        //Handles the analysis of text
-
+        ///Handles the analysis of text
         ///Method: analyseText
         ///Arguments: string
         ///Returns: list of integers
