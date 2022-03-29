@@ -8,9 +8,7 @@ namespace CMP1903M_Assessment_1_Base_Code
 {
     public class Input
     {
-        //Handles the text input for Assessment 1
-        string text = "nothing";
-        
+        ///Handles the text input for Assessment 1
         ///Method: manualTextInput
         ///Arguments: none
         ///Returns: string

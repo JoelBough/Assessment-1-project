@@ -20,66 +20,82 @@ namespace CMP1903M_Assessment_1_Base_Code
         //Create 'Input' object
         static void InputChoice()
         {
+            AnalyseString a = new AnalyseString();
             bool valid = false;
             string choice = "";
-            Input t = new Input();
-            Input f = new Input();
-            while (valid == false)
+            Input input = new Input();
+            while (valid == false)//error handling for inputting 
             {
                 Console.WriteLine("Text(T) or file(F)?");
                 //Get either manually entered text, or text from a file
-                string input = Console.ReadLine();
-                choice = input.ToUpper();
+                string choose = Console.ReadLine();
+                choice = choose.ToUpper();
 
                 if (choice.Length == 1)
                 {
                     valid = true;
                 }
-            }
-            if (choice == "T")
-            {
-                string s = t.manualTextInput();
-                Analyse(s);
-             
-            }
-            else if (choice == "F")
-            {
-                //go to file function
-                string s = f.fileTextInput(@"C:\Users\joelb\OneDrive\Documents\Computer science\OOP\CMP1903M Assessment 1 Base Code" );
-                Analyse(s);
 
+                if (choice == "T")
+                {
+                    string s = input.manualTextInput();
+                    Analyse(s, false);
+
+                }
+                else if (choice == "F")
+                {
+                    
+                    bool Exist = false;
+                    while (Exist == false)//error handling to make sure file is valid
+                    {
+                        Console.WriteLine("Enter file location");
+                        string location = Console.ReadLine();
+                        if (File.Exists(location) == false)
+                        {
+                            Console.WriteLine("File location does not exist");
+                        }
+                        else
+                        { 
+                            string text = System.IO.File.ReadAllText(location);
+                            string s = input.fileTextInput(text);
+                            Analyse(s, true);
+                            break;
+
+                        }
+
+                    }
+                }
+                else//return to input choice if they enter an error
+                {
+                    valid = false;
+                }
             }
-            else
-            {
-                Console.WriteLine("Invalid Entry");
-                Console.WriteLine("Please enter F or T");
-                InputChoice();
-            }
+            
         }
 
         //Create an 'Analyse' object
-        static void Analyse(string s)
+        static void Analyse(string s, bool file )//bool parameter to call long words if called from file
         {
             AnalyseString a = new AnalyseString();
+            Report r = new Report();
             List<int> values = a.analyseText(s);
-            Console.WriteLine($"There are {values[0]} sentences");
-            Console.WriteLine($"There are {values[1]} Vowels");
-            Console.WriteLine($"There are {values[2]} Consonants");
-            Console.WriteLine($"There are {values[3]} Upper case letters");
-            Console.WriteLine($"There are {values[4]} Lower case letters");
-            Console.WriteLine($"There are {values[3] + values[4]} Total letters");
+            List<int> letters = a.countletters(s);
+            r.Textoutput(values);
+            r.Letteroutput(letters);
+            //if it came from a file it analyses letter length
+            if (file == true)
+            {
+                List<string> words = a.LongWords(s);
+                r.Wordoutput(words);
+            }
+
         }
-            //Pass the text input to the 'analyseText' method
-
-
-            //Receive a list of integers back
-
-
-            //Report the results of the analysis
-
-
-            //TO ADD: Get the frequency of individual letters?
-
+        ///Pass the text input to the 'analyseText' method
+        ///Receive a list of integers back
+        ///Report the results of the analysis
+        ///TO ADD: Get the frequency of individual letters?
+       
+       
            
         
         

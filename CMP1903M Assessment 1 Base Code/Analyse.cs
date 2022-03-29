@@ -29,10 +29,9 @@ namespace CMP1903M_Assessment_1_Base_Code
             measurement[0] = sentence.Length - 1;
 
             //2. Number of vowels
-            int v = 0;
             int vowelcount = 0;
             string[] vowels = {"A", "E", "I", "O", "U"};
-            for (v = 0; v < 5; v++)
+            for (int v = 0; v < 5; v++)//loops through array of vowels and searches in text, adding frequency to vowelcount
             {
                 string[] vowel = input.ToUpper().Split(vowels[v]);
                 vowelcount = vowelcount + vowel.Length -1;
@@ -41,10 +40,8 @@ namespace CMP1903M_Assessment_1_Base_Code
             
 
             //3. Number of consonants
-            int c = 0;
             int conscount = 0;
-            //65-90
-            for(c = 65; c<90; c++)
+            for(int c = 65; c<91; c++)// counts every character and removes the vowels
             {
                 string[] cons = input.ToUpper().Split((char)c);
                 conscount = conscount + cons.Length - 1;
@@ -53,9 +50,8 @@ namespace CMP1903M_Assessment_1_Base_Code
             measurement[2] = conscount;
         
             //4. Number of upper case letters
-            int u = 0;
             int upper = 0;
-            for (u = 65; u < 90; u++)
+            for (int u = 65; u < 91; u++)//loops through and counts every upper case character
             {
                 string[] up = input.Split((char)u);
                 upper = upper + up.Length - 1;
@@ -65,15 +61,59 @@ namespace CMP1903M_Assessment_1_Base_Code
             //5. Number of lower case letters
             int l = 0;
             int lower = 0;
-            for (l = 97; l < 122; l++)
+            for (l = 97; l < 123; l++)//loops through and counts every lower case character
             {
                 string[] low = input.Split((char)l);
                 lower = lower + low.Length - 1;
             }
             measurement[4] = lower;
 
+            //Letter breakdown
+           
 
             return measurement;
         }
+
+        public List<int> countletters(string s)
+        {
+            List<int> quantity = new List<int>();
+            for (int i = 65; i < 91; i++)//loops through upper case letters and counts how many of each there are, adding to total
+            {
+                int freq = 0;
+                string[] letters = s.ToUpper().Split((char)i);
+                freq = letters.Length - 1;
+                quantity.Add(freq);
+            }
+            return quantity;
+        }
+
+        //Method for getting words above 7 letters or above
+        public List<string> LongWords(string s)
+        {
+            List<string> LongW = new List<string>();
+
+            string[] words = s.Split(' ');//splitting text into substrings as individual words
+            foreach (string word in words)
+            {
+                char end = word[word.Length - 1];
+                if (end == (char)46 || end == (char)44)//commas and full stops can be attatched to words so removes them before counting letters
+                {
+                    if (word.Length > 8)
+                    {
+                        string word2 = word.Remove(word.Length - 1, 1);//if comma or full stop, creates clone, removes it and adds word to list
+                        Console.WriteLine(word2);
+                        Console.WriteLine(word2);
+                        LongW.Add(word2);
+                    }
+                }
+                else if (word.Length > 7)
+                {
+                    LongW.Add(word);
+                }
+            }
+            return LongW;
+        }
+
+
     }
 }
